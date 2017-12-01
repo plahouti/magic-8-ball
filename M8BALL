@@ -1,0 +1,227 @@
+import random
+import time
+from enchant.checker import SpellChecker
+
+
+def ask():
+    roll = int(random.random() * 3) + 1
+    if roll == 1:
+        print ("Yes!\n")
+    elif roll == 2:
+        print ("maybe\n")
+    else:
+        print ("No\n")
+
+
+
+def check_input(choice):
+    while True:
+        response = raw_input().lower()
+
+        if spell_check(response) > 0:
+            print("I didn't understand that. Try again:")
+        else:
+            if choice == 'again':
+                again = input("1.Yes or 2.No")
+                if again == 1:
+                    return True
+                else:
+                    print ("Thanks for playing the Magic 8-Ball")
+                    return False
+            elif choice == "question":
+                if response == '':
+                    print ("You need to ask a question.")
+                elif '?' not in response:
+                    print ("Every question ends with a question mark!")
+                else:
+                    return response
+
+
+def spell_check(response):
+    count = 0
+
+    chkr = SpellChecker("en_US")
+    chkr.set_text(response)
+    for err in chkr:
+        if err:
+            count += 1
+
+    return count
+
+
+
+def ai(response, repeat):
+    num = int(random.random() * 3) + 1
+
+    getA(response, num, repeat)
+    getaloveandweight(response, num, repeat)
+
+
+
+def get_a(response, num, repeat):
+    if 'will' in response and 'i' in response and 'get' in response and ("an" 'a' in response or 'an a' in response):
+        rand_grade('a', num, repeat, 0)
+    elif 'will' in response and 'i' in response and 'do' in response and ("hard" in response or "difficult" in response):
+        rand_grade('well', num, repeat, 0)
+    elif 'this' in response and 'class' in response and ("hard" in response or "difficult" in response):
+        rand_grade('hard', num, repeat, 0)
+    elif 'this' in response and 'class' in response and "easy" in response:
+        rand_grade('easy', num, repeat, 0)
+
+
+
+def getaloveandweight(response, num, repeat):
+    if 'will' in response and 'i' in response and 'fall' in response and ("love" in response or "someone" in response):
+        rand_love('someone', num, repeat, 0)
+    elif 'does' in response and 'someone' in response and 'me' in response and ("like" in response or "love" in response):
+        rand_love('me', num, repeat, 0)
+    elif 'will' in response and 'i' in response and 'fall' in response and ("soon" in response or "future in response"):
+        rand_love('soon', num, repeat, 0)
+    elif 'does' in response and 'love' in response and 'me' in response:
+        rand_love('person', num, repeat, 0)
+    elif 'will' in response and 'lose' in response and 'weight' in response:
+        getaloveandweight('skinny', num, repeat, 0)
+    elif 'will' in response in response and 'gain' in response and 'weight' in response:
+        getaloveandweight('kealoha', num, repeat, 0)
+    elif 'will' in response and 'muscles' in response and ('grow' in response or 'get' in response):
+        getaloveandweight('muscle', num, repeat, 0)
+    elif 'will' in response and 'be' in response and 'rich' in response and 'strong' in response:
+        getaloveandweight('ideal', num, repeat, 0)
+
+
+def rand_grade(choice, num, repeat, index):
+    repeat[index] += 1
+
+    if check_repeat(repeat, index):
+        print_repeat(num)
+
+    if choice == 'a':
+        if num == 1:
+            print ("Getting a grade in the excellent range? Magic 8-Ball replies with a...")
+        elif num == 2:
+            print ("A perfect score in a class? Wouldn't that be wonderful. Magic 8-Ball says...")
+        else:
+            print ("Hmmm... getting and 'A'? That's tough, Magic 8-Ball says...")
+    if choice == 'well':
+        if num == 1:
+            print ("Based in your mindset this year, the Magic 8-Ball says...")
+        elif num == 2:
+            print ("I am sure you will do well if you try, the Magic 8-Ball thinks ...")
+        else:
+            print ("Doing well isn't always a relaxing walk on the beach. Magic 8-Ball says...")
+    if choice == 'hard':
+        if num == 1:
+            print ("Is this class very difficult?")
+        elif num == 2:
+            print ("Difficult or not try your best. The Magic 8-Ball replies with a ...")
+        else:
+            print ("A difficult class? Everyone has had at least one of those. The Magic 8-Ball says...")
+    if choice == 'easy':
+        if num == 1:
+            print ("Is this class going to be a piece of cake?")
+        elif num == 2:
+            print ("Praying your class will be easy?")
+        else:
+            print ("Good luck with your class. The Magic 8-Ball replies with a ...")
+    elif choice == 'skinny':
+        if num == 1:
+            print("Yes, but you have to work out everyday")
+        elif num == 2:
+            print("being skinny isn't always good, so why bother.")
+        else:
+            print("Defiantly, but it might not be easy")
+    elif choice == 'kealoha':
+        if num == 1:
+            print("If you want to become fat just sit on a coach for ours with tons of chips")
+        elif num == 2:
+            print("If you think ur fat go to the gym")
+        else:
+            print("you are not fat")
+    elif choice == 'muscle':
+        if num == 1:
+            print("wanna grow some gains go to the gym and work out")
+        elif num == 2:
+            print("go on a hike")
+        else:
+            print("go have some out door activities.")
+    elif choice == 'successful':
+        if num == 1:
+            print("IF you want to become rich you got to give more effort into things")
+        elif num == 2:
+            print("If you want to become rich you got to be more responsible")
+        else:
+            print("If you want to become rich you got to work hard")
+
+
+
+def rand_love(choice, num, repeat, index):
+    if check_repeat(repeat, index):
+        print_repeat(num)
+
+    elif choice == 'someone':
+        if num == 1:
+            print ("So you are looking for that special someone? Magic 8-Ball says...")
+        elif num == 2:
+            print ("You want to find love? Magic 8-Ball says...")
+        else:
+            print ("Everyone deserves love. Magic 8-Ball says...")
+    elif choice == 'me':
+        if num == 1:
+            print ("Trying to see if someone has a crush on you? Magic 8-Ball says...")
+        elif num == 2:
+            print ("Want someone to love you the way you love them? Magic 8-Ball says...")
+        else:
+            print ("Does someone like you? Magic 8-Ball says...")
+    elif choice == 'soon':
+        if num == 1:
+            print ("Hoping that the future will bring love? Magic 8-Ball says...")
+        elif num == 2:
+            print ("Will love come as soon as you hope? Magic 8-Ball says...")
+        else:
+            print ("Is love going to come in the near future? Magic 8-Ball says...")
+    elif choice == 'person':
+        if num == 1:
+            print ("Trying to see if that special someone loves you back? Magic 8-Ball says...")
+        elif num == 2:
+            print ("Does this person really love you? Magic 8-Ball says...")
+        else:
+            print ("Love it can be complicated. Magic 8-Ball says...")
+
+
+
+def check_repeat(repeat, index):
+    repeat[index] += 1
+
+    if repeat[index] > 1:
+        return True
+    else:
+        return False
+
+
+
+def print_repeat(num):
+    if num == 1:
+        print ("Didn't you ask that question already? Anyhow ...")
+    elif num == 2:
+        print ("Is this the second time you are asking that!?! Whatever...")
+    elif num == 3:
+        print ("Asking the same question again? Stop it...")
+
+
+
+def main():
+    repeat = [0] * 7
+    name = raw_input("What is your name?")
+    print("Hello, " + name + ", and welcome to the magic 8-Ball")
+    time.sleep(1)
+    answer = True
+    while answer:
+        print ("Ask the 8-Ball a yes or no question and await your response:")
+        ai(check_input("question"), repeat)
+        ask()
+
+        print ("Would you like to ask another question? Click enter to continue.")
+        answer = check_input('again')
+
+
+main()
